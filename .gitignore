@@ -1,0 +1,17 @@
+# 编译产物，不进仓库
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+
+# 临时文件
+*.tmp
+*.log
+*~
+
+# 系统垃圾
+Thumbs.db
+desktop.ini
+.DS_Store

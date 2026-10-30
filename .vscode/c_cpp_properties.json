@@ -1,0 +1,21 @@
+{
+  // 告诉 C/C++ 扩展：用 Dev-C++ 自带那个 g++，按 C++11 解析
+  // 这样你打字时就有补全和红色错误波浪线，不用等编译才发现写错
+  "configurations": [
+    {
+      "name": "MinGW64 (Dev-C++)",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include/**",
+        "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/**",
+        "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/**"
+      ],
+      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+      "compilerPath": "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe",
+      "cStandard": "c11",
+      "cppStandard": "c++11",
+      "intelliSenseMode": "windows-gcc-x64"
+    }
+  ],
+  "version": 4
+}

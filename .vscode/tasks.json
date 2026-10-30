@@ -1,0 +1,40 @@
+{
+  // VS Code 的任务配置：按 Ctrl+Shift+B 就能「编译 + 运行当前打开的 .cpp」
+  //
+  // 原理：command 调 cmd /c，先把控制台切到 UTF-8（否则中文乱码），
+  //        再用 g++ 编译当前文件，成功后立刻运行它。
+  //        全程在 VS Code 的终端里跑，所以程序要键盘输入时可以直接敲。
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "编译并运行（当前文件）",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
+      ],
+      "options": { "cwd": "${fileDirname}" },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "只编译（不运行）",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\""
+      ],
+      "options": { "cwd": "${fileDirname}" },
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
