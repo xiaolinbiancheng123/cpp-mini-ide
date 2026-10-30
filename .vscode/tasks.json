@@ -1,9 +1,14 @@
 {
-  // VS Code 的任务配置：按 Ctrl+Shift+B 就能「编译 + 运行当前打开的 .cpp」
+  // VS Code 任务：Ctrl+Shift+B 一键「编译 + 运行当前打开的 .cpp」
   //
-  // 原理：command 调 cmd /c，先把控制台切到 UTF-8（否则中文乱码），
-  //        再用 g++ 编译当前文件，成功后立刻运行它。
-  //        全程在 VS Code 的终端里跑，所以程序要键盘输入时可以直接敲。
+  // 原理：
+  //   1. 先确保工作区里的 output\ 目录存在（不存在就建）——这叫「幂等初始化」，
+  //      程序要往这个目录写报告时不会因为目录缺失而失败
+  //   2. 把控制台切到 UTF-8，避免中文乱码
+  //   3. 用 g++ 编译当前文件，产物放在源文件旁边
+  //   4. 编译成功才运行
+  //
+  // ★ 全程在 VS Code 的终端里跑，程序要键盘输入时可以直接敲。
   "version": "2.0.0",
   "tasks": [
     {
@@ -12,7 +17,7 @@
       "command": "cmd",
       "args": [
         "/c",
-        "chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
+        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
       ],
       "options": { "cwd": "${fileDirname}" },
       "group": { "kind": "build", "isDefault": true },
@@ -30,11 +35,22 @@
       "command": "cmd",
       "args": [
         "/c",
-        "chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\""
+        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\""
       ],
       "options": { "cwd": "${fileDirname}" },
       "group": "build",
       "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "清理编译产物（删 exe）",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "del /q \"${fileDirname}\\${fileBasenameNoExtension}.exe\" 2>NUL & echo 已清理 ${fileBasenameNoExtension}.exe"
+      ],
+      "options": { "cwd": "${fileDirname}" },
+      "problemMatcher": []
     }
   ]
 }
