@@ -8,7 +8,10 @@
   //   3. 用 g++ 编译当前文件，产物放在源文件旁边
   //   4. 编译成功才运行
   //
-  // ★ 全程在 VS Code 的终端里跑，程序要键盘输入时可以直接敲。
+  // ★ 注意链接顺序：源文件在前，-l 库在后。
+  //   GNU 链接器从左到右处理，库放在源文件前面时还没产生未解析符号，
+  //   库会被跳过，于是 TextOutW 之类会报 undefined reference。
+  //   ★ 全程在 VS Code 的终端里跑，程序要键盘输入时可以直接敲。
   "version": "2.0.0",
   "tasks": [
     {
@@ -17,7 +20,7 @@
       "command": "cmd",
       "args": [
         "/c",
-        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
+        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" -lgdi32 -luser32 && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
       ],
       "options": { "cwd": "${fileDirname}" },
       "group": { "kind": "build", "isDefault": true },
@@ -35,7 +38,7 @@
       "command": "cmd",
       "args": [
         "/c",
-        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\""
+        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" -lgdi32 -luser32"
       ],
       "options": { "cwd": "${fileDirname}" },
       "group": "build",

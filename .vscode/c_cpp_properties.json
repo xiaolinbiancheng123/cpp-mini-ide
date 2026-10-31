@@ -10,7 +10,10 @@
         "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/**",
         "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/**"
       ],
-      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+      // defines 必须和真实编译命令一致：我们的任务是 g++ -std=c++11 -Wall -g，
+      // 并没有 -DUNICODE，所以这里不能定义 UNICODE，否则写窗口代码时
+      // LoadCursorA 之类会显示假红线（编译其实是过的）
+      "defines": ["_DEBUG"],
       "compilerPath": "C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe",
       "cStandard": "c11",
       "cppStandard": "c++11",
