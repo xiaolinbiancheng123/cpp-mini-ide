@@ -20,7 +20,7 @@
       "command": "cmd",
       "args": [
         "/c",
-        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" -lgdi32 -luser32 && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
+        "if not exist \"${workspaceFolder}\\output\\tmp\" mkdir \"${workspaceFolder}\\output\\tmp\" && set \"TMP=${workspaceFolder}\\output\\tmp\" && set \"TEMP=${workspaceFolder}\\output\\tmp\" && if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" -lgdi32 -luser32 && \"${fileDirname}/${fileBasenameNoExtension}.exe\""
       ],
       "options": { "cwd": "${fileDirname}" },
       "group": { "kind": "build", "isDefault": true },
@@ -38,7 +38,7 @@
       "command": "cmd",
       "args": [
         "/c",
-        "if not exist \"${workspaceFolder}\\output\" mkdir \"${workspaceFolder}\\output\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" -lgdi32 -luser32"
+        "if not exist \"${workspaceFolder}\\output\\tmp\" mkdir \"${workspaceFolder}\\output\\tmp\" && set \"TMP=${workspaceFolder}\\output\\tmp\" && set \"TEMP=${workspaceFolder}\\output\\tmp\" && chcp 65001 >NUL && \"C:/Users/89520/Desktop/音乐/Dev-C++/Dev-Cpp/MinGW64/bin/g++.exe\" -std=c++11 -Wall -g -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" \"${file}\" -lgdi32 -luser32"
       ],
       "options": { "cwd": "${fileDirname}" },
       "group": "build",

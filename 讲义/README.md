@@ -7,6 +7,9 @@
 | [术语表.md](术语表.md) | **所有术语的人话解释**，看不懂的词先查这里 | 持续补充 |
 | [L0-1_变量与类型.md](L0-1_变量与类型.md) | 变量、类型、运算、cout/cin、整数除法陷阱、Windows 双击坑 | ✅ 已学 |
 | [L0-2_循环与数组.md](L0-2_循环与数组.md) | for / while、break/continue、数组、越界、累加与打擂台 | 进行中 |
+| [W1-5_键盘消息与多行绘制.md](W1-5_键盘消息与多行绘制.md) | WM_KEYDOWN、虚拟键码、DestroyWindow vs PostQuitMessage、字符串数组画多行 | ✅ 已学 |
+| [W1_窗口原理.md](W1_窗口原理.md) | 句柄、窗口类、消息循环、WndProc、BeginPaint/EndPaint | ✅ 已学 |
+| [W2_控件与消息.md](W2_控件与消息.md) | 控件=子窗口、EDIT/BUTTON/STATIC、控件ID、WM_CREATE、WM_COMMAND、读写控件、输入校验 | ✅ 已学 |
 | L0-3_函数与结构体.md | 函数（参数/返回值/作用域）、结构体（打包数据）、函数指针 | 待学 |
 | L1-1_文件读写.md | `ifstream`、`getline`、UTF-8 字节 vs 字数 | 待学 |
 | L1-2_字符串处理.md | `substr`、`find`、`npos`、`vector`、切章 | 待学 |
