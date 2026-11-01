@@ -53,15 +53,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         // “计算”按钮，点击后触发 WM_COMMAND
         g_btnCalc = CreateWindowExW(
             0, L"BUTTON", L"计算",
-            WS_CHILD | WS_VISIBLE,
-            130, 140, 100, 34,
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+            130, 165, 100, 34,
             hwnd, (HMENU)ID_BTN, GetModuleHandleW(nullptr), nullptr);
 
         // 结果显示区域，初始文本为“总价: ——”
         g_result = CreateWindowExW(
             0, L"STATIC", L"总价: ——",
             WS_CHILD | WS_VISIBLE,
-            40, 210, 400, 30,
+            40, 235, 400, 30,
             hwnd, (HMENU)ID_RESULT, GetModuleHandleW(nullptr), nullptr);
 
         // 纯文本标签，不需要保存句柄
