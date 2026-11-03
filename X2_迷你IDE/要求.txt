@@ -1,0 +1,80 @@
+X2 迷你 IDE · 任务
+════════════════════════════════════════
+
+目标：做一个"能写代码、能编译、能看错误"的小 IDE（像 VS 的主干）。
+      编译器用现成的 g++（VS 自己也是调 MSVC，不自己写编译器）。
+
+文件：cpp学习\X2_迷你IDE\ide.cpp
+讲义：cpp学习\讲义\X2-1_迷你IDE.md
+
+分工：
+  界面 + 接线：我来做
+  编译函数：你来写（string bianyi(string daima)）
+
+
+【任务 A：界面（我来搭，你不用写）】
+
+  窗口里会有：
+    · 代码编辑区（多行 EDIT，可滚动）
+    · 输出区（多行 EDIT，只读）
+    · 「编译运行」按钮、「清空」按钮
+    · 状态栏文字
+
+  ★ 我搭好之后会告诉你控件 ID 和句柄名，你只需要往 bianyi() 里写逻辑。
+
+
+【任务 B：你写 bianyi 函数（核心）】
+
+  #include <fstream>
+  #include <string>
+  #include <cstdlib>
+  using namespace std;
+
+  string bianyi(string daima);
+
+  三步：
+    ① ofstream 把 daima 写成 .cpp 文件
+    ② system() 调 g++ 编译，把输出重定向到 log.txt
+        命令：cmd /c "g++ 源.cpp -o 程序.exe > log.txt 2>&1"
+        返回值 0 = 成功，非 0 = 失败
+    ③ ifstream + getline 把 log.txt 读成字符串返回
+
+  临时文件用这几个路径（我来建目录，你直接用）：
+    C:\Users\89520\Desktop\音乐\cpp学习\output\ide\test.cpp
+    C:\Users\89520\Desktop\音乐\cpp学习\output\ide\test.exe
+    C:\Users\89520\Desktop\音乐\cpp学习\output\ide\log.txt
+
+  注意：
+    · ofstream/ifstream/system 都要 .c_str()（C++ string → C 风格字符串）
+    · 文件用完必须 close()
+    · 多行文本框换行用 "\r\n"
+    · 返回值：成功 → "[成功] ..." ；失败 → "[失败] " + 错误文本
+
+
+【验收标准】
+
+  [ ] 编译零警告
+  [ ] bianyi("int main(){ return 0; }")            → 返回文字里没有 "error"
+  [ ] bianyi("int main(){ int x = ; }")            → 返回文字里有 "error:" 和行号
+  [ ] bianyi("")                                    → 返回文字里有 "undefined reference to `main'"
+  [ ] bianyi("int main(){ // 中文注释\n return 0; }") → 能编译成功（注释不影响）
+  [ ] 接到按钮后：在编辑区写代码 → 点编译 → 输出区显示结果
+
+【提示】
+
+  · 写文件：
+        ofstream out(路径.c_str());
+        out << daima;
+        out.close();
+
+  · 拼命令：
+        string mingling = "cmd /c \"g++ " + 源 + " -o " + exe + " > " + log + " 2>&1\"";
+        int r = system(mingling.c_str());
+
+  · 读日志：
+        ifstream in(路径.c_str());
+        string line, jieguo;
+        while (getline(in, line)) { jieguo += line; jieguo += "\r\n"; }
+        in.close();
+
+  · 目录不存在怎么办？先让程序跑起来（我会提前把 output\ide 目录建好）

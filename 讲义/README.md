@@ -11,7 +11,9 @@
 | [W1_窗口原理.md](W1_窗口原理.md) | 句柄、窗口类、消息循环、WndProc、BeginPaint/EndPaint | ✅ 已学 |
 | [W2_控件与消息.md](W2_控件与消息.md) | 控件=子窗口、EDIT/BUTTON/STATIC、控件ID、WM_CREATE、WM_COMMAND、读写控件、输入校验 | ✅ 已学 |
 | [控件速查.md](控件速查.md) | **所有控件类名/样式/操作消息/选型表**（基础 6 种 + 通用控件的额外初始化） | 随时查 |
-| [L0-3_函数.md](L0-3_函数.md) | 函数（定义/参数/返回值/引用参数/作用域）、把 W2 的校验抽成函数 | 🟡 进行中 |
+| [L0-3_函数.md](L0-3_函数.md) | 函数（定义/参数/返回值/引用参数/作用域）、把 W2 的校验抽成函数 | ✅ 已完成 |
+| [X1-1_词法分析.md](X1-1_词法分析.md) | **迷你编译器第一步**：token 概念、string/vector 用法、扫描算法、任务与验收 | ✅ 已完成 |
+| [X2-1_迷你IDE.md](X2-1_迷你IDE.md) | **做个小 IDE**：VS 的原理、多行编辑框、ofstream/system/ifstream、编写 bianyi 函数 | ✅ 可用 |
 | L1-1_文件读写.md | `ifstream`、`getline`、UTF-8 字节 vs 字数 | 待学 |
 | L1-2_字符串处理.md | `substr`、`find`、`npos`、`vector`、切章 | 待学 |
 

@@ -29,7 +29,7 @@ $ErrorActionPreference = 'Stop'
 $ROOT    = $PSScriptRoot                                                    # cpp学习 根目录
 $GXX     = 'C:\Users\89520\Desktop\音乐\Dev-C++\Dev-Cpp\MinGW64\bin\g++.exe' # 编译器
 $TEMPDIR = Join-Path $ROOT 'output\tmp'                                     # 临时目录（绕开系统 Temp）
-$LIBS    = @('-lgdi32', '-luser32', '-lcomctl32')                            # 链接库（窗口程序要）
+$LIBS    = @('-lgdi32', '-luser32', '-lcomctl32', '-lshell32', '-lcomdlg32')               # 链接库（窗口程序 + ShellExecute 要）
 
 # ── 打印小工具 ──
 function Info($m) { Write-Host "[信息] $m" -ForegroundColor Cyan }
