@@ -19,3 +19,6 @@ desktop.ini
 # 程序输出的报告文件（保留目录占位）
 output/*
 !output/.gitkeep
+
+# 临时目录
+_tmp/
