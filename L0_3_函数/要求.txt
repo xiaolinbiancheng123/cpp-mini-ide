@@ -1,0 +1,91 @@
+L0-3 任务：函数
+════════════════════════════════════════
+
+目标：把 W2 打车费里那 97 行、11 个 if 的校验逻辑，
+      抽成函数，压到 40 行以内，行为完全不变。
+
+目录：cpp学习\L0_3_函数\
+讲义：cpp学习\讲义\L0-3_函数.md
+
+
+【任务 A：把计算拆成函数】（先做这个，简单）
+
+  写两个函数：
+
+    double jisuanlichengfei(double km, double danjia);
+    // 3 公里内返回 0，超出部分 = (km - 3.0) * danjia
+
+    double jisuandengdaifei(double fenzhong);
+    // 返回 fenzhong * 0.3
+
+  然后在 WM_COMMAND 里调用它们：
+    double lichengfei  = jisuanlichengfei(km, gongli);
+    double dengdaifei  = jisuandengdaifei(wait);
+
+
+【任务 B：写"读数字"函数】（核心）
+
+  bool duShuzi(HWND kuang, const wchar_t* mingzi,
+               double zuiXiao, double zuiDa, double& jieguo);
+
+  参数含义：
+    kuang    —— 要读哪个输入框（句柄）
+    mingzi   —— 中文名字，如 L"公里数"（用来拼错误提示）
+    zuiXiao  —— 允许的最小值
+    zuiDa    —— 允许的最大值
+    jieguo   —— 输出参数：校验通过时把值写进这里
+
+  内部要做八步：
+    ① wchar_t buf[32]; GetWindowTextW(kuang, buf, 32);
+    ② buf[0] == L'\0' → 提示"请输入XXX"，return false
+    ③ double zhi = wcstod(buf, &end);
+    ④ zhi != zhi（NaN）→ 提示"XXX 请输入有效数字"，return false
+    ⑤ while (*end == L' ' || *end == L'\t') end++;
+    ⑥ *end != L'\0' → 提示"XXX 请输入有效数字"，return false
+    ⑦ zhi < zuiXiao || zhi > zuiDa → 提示"XXX 超出范围"，return false
+    ⑧ jieguo = zhi; return true;
+
+  拼错误信息的写法：
+    wchar_t tishi[96];
+    swprintf(tishi, 96, L"%ls 请输入有效数字", mingzi);
+    SetWindowTextW(g_result, tishi);
+    return false;
+
+  ★ %ls 是"宽字符串"的格式符（对应 wchar_t*）
+
+
+【任务 C：重构 WM_COMMAND】
+
+  double km = 0, wait = 0, gongli = 0;
+
+  if (!duShuzi(g_editKm,    L"公里数",  0, 1000, km))     return 0;
+  if (!duShuzi(g_editWait,  L"等待时间", 0, 1000, wait))   return 0;
+  if (!duShuzi(g_editGongli,L"每公里价格", 0.01, 1000, gongli)) return 0;
+
+  // 到这里说明三个输入都合法
+  double lichengfei = jisuanlichengfei(km, gongli);
+  double dengdaifei = jisuandengdaifei(wait);
+  double result = 10.0 + lichengfei + dengdaifei;
+  ...显示...
+
+
+【验收标准】
+
+  [ ] 编译零警告
+  [ ] WM_COMMAND 从 ~97 行降到 40 行以内
+  [ ] 行为完全一致：
+      5.5 / 8 / 2.3    → 总价：18.15元
+      2 / 0 / 2.3      → 总价：10.00元
+      空输入           → 提示「请输入 XXX」
+      -5               → 提示「公里数 超出范围」
+      abc              → 提示「公里数 请输入有效数字」
+      nan              → 提示「公里数 请输入有效数字」
+      单价空           → 提示「请输入 每公里价格」
+  [ ] 改一处上限（把 1000 改成 500），三个输入框同时生效
+
+【提示】
+
+  · 函数要写在 WndProc 上面（或者先写原型声明），否则"未声明"
+  · 函数里能直接用全局变量 g_result
+  · 引用参数写法：double& jieguo（注意 &）
+  · 调用时不用写 &：duShuzi(g_editKm, L"公里数", 0, 1000, km)

@@ -1,14 +1,14 @@
-#include <windows.h>  // Windows API 所需头文件，提供 HWND、CreateWindow 等接口
-#include <iostream>     // 只为创建失败时输出一条日志，便于调试
-#include <cwchar>       // 提供 wcslen / wcstod / swprintf 等宽字符函数
+#include <windows.h> // Windows API 所需头文件，提供 HWND、CreateWindow 等接口
+#include <iostream>  // 只为创建失败时输出一条日志，便于调试
+#include <cwchar>    // 提供 wcslen / wcstod / swprintf 等宽字符函数
 using namespace std;
 
 // 这些标识符用于区分界面上的不同控件
-#define ID_KM    101   // 里程输入框
-#define ID_WAIT  102   // 等待分钟输入框
-#define ID_BTN   103   // 计算按钮
-#define ID_RESULT 104  // 结果显示标签
-#define ID_GONGLI 105  // 公里输入框
+#define ID_KM 101     // 里程输入框
+#define ID_WAIT 102   // 等待分钟输入框
+#define ID_BTN 103    // 计算按钮
+#define ID_RESULT 104 // 结果显示标签
+#define ID_GONGLI 105 // 公里输入框
 
 // 全局句柄：保存各个控件的窗口句柄，方便在消息处理函数中访问它们
 HWND g_editKm = nullptr;
@@ -53,7 +53,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         // “计算”按钮，点击后触发 WM_COMMAND
         g_btnCalc = CreateWindowExW(
             0, L"BUTTON", L"计算",
-            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+            WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
             130, 165, 100, 34,
             hwnd, (HMENU)ID_BTN, GetModuleHandleW(nullptr), nullptr);
 
@@ -108,7 +108,55 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 SetWindowTextW(g_result, L"每公里价格必须大于 0");
                 return 0;
             }
-
+            if (km < 0.0 || wait < 0.0 || Gongli < 0.0)
+            {
+                // 如果公里数或等待时间为负数，显示错误信息
+                SetWindowTextW(g_result, L"公里数和等待时间不能为负数");
+                return 0;
+            }
+            wchar_t* end = nullptr;
+            double kmCheck = wcstod(bufKm, &end);
+            while(*end == L' ' || *end == L'\t')
+            {
+                end++;
+            }
+            if (end != bufKm + wcslen(bufKm))
+            {
+                // 如果公里数输入不是有效数字，显示错误信息
+                SetWindowTextW(g_result, L"请输入有效的公里数");
+                return 0;
+            }
+            if (bufKm[0] == L'\0' || bufWait[0] == L'\0' || bufGongli[0] == L'\0')
+            {
+                // 如果任意输入框为空，显示错误信息
+                SetWindowTextW(g_result, L"请输入公里数、等待时间和每公里价格");
+                return 0;
+            }
+            
+            if (*end != L'\0')
+            {
+                // 如果公里数输入包含非数字字符，显示错误信息
+                SetWindowTextW(g_result, L"请输入有效的公里数");
+                return 0;
+            }
+            if (km > 1000.0)
+            {
+                // 如果公里数过大，显示错误信息
+                SetWindowTextW(g_result, L"公里数不能超过 1000 公里");
+                return 0;
+            }
+            if (wait > 1000.0)
+            {
+                // 如果等待时间过长，显示错误信息
+                SetWindowTextW(g_result, L"等待时间不能超过 1000 分钟");
+                return 0;
+            }
+            if(Gongli > 1000.0)
+            {
+                // 如果每公里价格过高，显示错误信息
+                SetWindowTextW(g_result, L"每公里价格不能超过 1000 元");
+                return 0;
+            }
             // 计算里程费：前 3 公里 10 元，超过部分每公里 2.3 元
             double lichengfei = 0.0;
             if (km > 3.0)
@@ -151,15 +199,15 @@ int main()
     HINSTANCE hInst = GetModuleHandleW(nullptr);
 
     // 窗口类名，唯一标识一个窗口类型
-    const wchar_t* CLASS = L"MoWin15";
+    const wchar_t *CLASS = L"MoWin15";
 
     // ① 注册窗口类：相当于给窗口定一个“蓝图”
     WNDCLASSW wc = {};
-    wc.lpfnWndProc   = WndProc;      // 指定窗口消息处理函数
-    wc.hInstance     = hInst;         // 当前应用实例
-    wc.lpszClassName = CLASS;         // 类名
-    wc.hCursor       = LoadCursor(nullptr, IDC_ARROW);  // 鼠标样式
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);      // 窗口背景画刷
+    wc.lpfnWndProc = WndProc;                      // 指定窗口消息处理函数
+    wc.hInstance = hInst;                          // 当前应用实例
+    wc.lpszClassName = CLASS;                      // 类名
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);   // 鼠标样式
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1); // 窗口背景画刷
     RegisterClassW(&wc);
 
     // ② 按窗口类创建窗口：真正生成可视化界面
@@ -173,7 +221,7 @@ int main()
     if (!hwnd)
     {
         cout << "窗口创建失败" << endl;
-        return 1;  // 非 0 表示失败
+        return 1; // 非 0 表示失败
     }
 
     // ③ 显示窗口：让它出现在屏幕上
@@ -184,6 +232,13 @@ int main()
     MSG msg;
     while (GetMessageW(&msg, nullptr, 0, 0) > 0)
     {
+        if (msg.message == WM_KEYDOWN && msg.wParam == VK_RETURN)
+        {
+            SendMessageW(hwnd, WM_COMMAND,
+                         MAKEWPARAM(ID_BTN, BN_CLICKED),
+                         (LPARAM)g_btnCalc);
+            continue;
+        }
         TranslateMessage(&msg);
         DispatchMessageW(&msg);
     }

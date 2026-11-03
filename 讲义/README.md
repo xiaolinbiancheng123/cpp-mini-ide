@@ -10,7 +10,8 @@
 | [W1-5_键盘消息与多行绘制.md](W1-5_键盘消息与多行绘制.md) | WM_KEYDOWN、虚拟键码、DestroyWindow vs PostQuitMessage、字符串数组画多行 | ✅ 已学 |
 | [W1_窗口原理.md](W1_窗口原理.md) | 句柄、窗口类、消息循环、WndProc、BeginPaint/EndPaint | ✅ 已学 |
 | [W2_控件与消息.md](W2_控件与消息.md) | 控件=子窗口、EDIT/BUTTON/STATIC、控件ID、WM_CREATE、WM_COMMAND、读写控件、输入校验 | ✅ 已学 |
-| L0-3_函数与结构体.md | 函数（参数/返回值/作用域）、结构体（打包数据）、函数指针 | 待学 |
+| [控件速查.md](控件速查.md) | **所有控件类名/样式/操作消息/选型表**（基础 6 种 + 通用控件的额外初始化） | 随时查 |
+| [L0-3_函数.md](L0-3_函数.md) | 函数（定义/参数/返回值/引用参数/作用域）、把 W2 的校验抽成函数 | 🟡 进行中 |
 | L1-1_文件读写.md | `ifstream`、`getline`、UTF-8 字节 vs 字数 | 待学 |
 | L1-2_字符串处理.md | `substr`、`find`、`npos`、`vector`、切章 | 待学 |
 
