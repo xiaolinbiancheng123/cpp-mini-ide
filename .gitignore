@@ -22,3 +22,6 @@ output/*
 
 # 临时目录
 _tmp/
+
+# 本地凭据（含 token，绝对不能提交）
+.git-credentials
